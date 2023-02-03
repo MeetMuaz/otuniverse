@@ -154,6 +154,20 @@ function invalidPhone($phone) {
     return $result;
 }
 
+
+function newContactFunction($data){
+    global $conn;
+
+    if(empty($data) || !isset($data)){
+        return false;
+    }
+
+    $fields = '`' . implode('`,`', array_keys($data)) . '`';
+    $data   = '\'' . implode('\', \'', $data) . '\'';
+    $query  = mysqli_query($conn, "INSERT INTO contacts ({$fields}) VALUES ({$data})");
+    return mysqli_insert_id($conn);
+}
+
 function sendContact($conn, $name, $email, $phone, $message) {
     $sql = "INSERT INTO contacts (contactName, contactEmail, contactPhone, contactMessage) VALUES (?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
